@@ -16,11 +16,11 @@ export class CanvasService {
       `${canvasConfig.baseUrl}/calendar_events`,
       {
         "calendar_event[context_code]": `user_${userID.toString()}`,
-        "calendar_event[title]": event.courseName,
-        "calendar_event[start_at]": event.startTime.toISOString(),
-        "calendar_event[end_at]": event.endTime.toISOString(),
-        "calendar_event[description]": event.details ?? "",
-        "calendar_event[location_name]": event.room ?? "Distans",
+        "calendar_event[title]": event.title,
+        "calendar_event[start_at]": event.start_at.toISOString(),
+        "calendar_event[end_at]": event.end_at.toISOString(),
+        "calendar_event[description]": event.description ?? "",
+        "calendar_event[location_name]": event.location_name ?? "Distans",
       },
       {
         headers: {
