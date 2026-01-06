@@ -1,0 +1,108 @@
+{
+  "columnheaders": [
+    "Aktivitet",
+    "Plats, Lokal",
+    "Kurskod",
+    "Kursnamn",
+    "Grupp/Grupper",
+    "Anställd, Student",
+    "Studentförening",
+    "Kommentar, Kommentar",
+    "Möteslänk",
+    "Campus",
+    "Syfte",
+    "Utrustning",
+    "Text, Text"
+  ],
+  "info": { "reservationlimit": 1000, "reservationcount": 4 },
+  "reservations": [
+    {
+      "id": "1139370",
+      "startdate": "2025-11-06",
+      "starttime": "13:00",
+      "enddate": "2025-11-06",
+      "endtime": "14:30",
+      "columns": [
+        "Lektion",
+        "Zoom, A1301*",
+        "D0031N, D0031N",
+        "Enterprise Architecture och SOA, Enterprise Architecture och SOA",
+        "",
+        "Ingemar Andersson",
+        "",
+        "",
+        "https://ltu-se.zoom.us/j/518490809",
+        "Luleå",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": "1139374",
+      "startdate": "2025-11-13",
+      "starttime": "13:00",
+      "enddate": "2025-11-13",
+      "endtime": "14:30",
+      "columns": [
+        "Lektion",
+        "Zoom, A1301*",
+        "D0031N, D0031N",
+        "Enterprise Architecture och SOA, Enterprise Architecture och SOA",
+        "",
+        "Jean Claude Byungura",
+        "",
+        "",
+        "https://ltu-se.zoom.us/j/64796979928",
+        "Luleå",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": "1139371",
+      "startdate": "2025-11-20",
+      "starttime": "13:00",
+      "enddate": "2025-11-20",
+      "endtime": "14:30",
+      "columns": [
+        "Lektion",
+        "Zoom, A1301*",
+        "D0031N, D0031N",
+        "Enterprise Architecture och SOA, Enterprise Architecture och SOA",
+        "",
+        "Ingemar Andersson",
+        "",
+        "",
+        "https://ltu-se.zoom.us/j/518490809",
+        "Luleå",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": "1139376",
+      "startdate": "2025-11-27",
+      "starttime": "13:00",
+      "enddate": "2025-11-27",
+      "endtime": "14:30",
+      "columns": [
+        "Lektion",
+        "Zoom, A1301*",
+        "D0031N, D0031N",
+        "Enterprise Architecture och SOA, Enterprise Architecture och SOA",
+        "",
+        "Jean Claude Byungura",
+        "",
+        "",
+        "https://ltu-se.zoom.us/j/64796979928",
+        "Luleå",
+        "",
+        "",
+        ""
+      ]
+    }
+  ]
+}

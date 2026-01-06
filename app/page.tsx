@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { ScheduleEvent } from "./domain/ScheduleEvent";
+import { CanvasService } from "./Service/CanvasService";
 
 export default function Home() {
   const [timeEditLink, setTimeEditLink] = useState("");
@@ -55,7 +57,26 @@ export default function Home() {
 
       const jsonData = await response.json();
       setTimeEditData(jsonData);
-      console.log("TimeEdit data:", jsonData);
+
+      const timeEditEvents: ScheduleEvent[] =
+        jsonData.reservations?.map((reservation: any) => ({
+          contextCode: String(userID),
+          title: reservation.columns[0],
+          description: reservation.columns[8],
+          start_at: new Date(
+            `${reservation.startdate}T${reservation.starttime}`
+          ),
+          end_at: new Date(`${reservation.enddate}T${reservation.endtime}`),
+          location_name: reservation.columns[1],
+          all_day: false,
+        })) || [];
+
+      const canvasService = new CanvasService();
+      for (const event of timeEditEvents) {
+        await canvasService.createCalenderEvent(event);
+      }
+
+      console.log("TimeEdit Events:", timeEditEvents);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Failed to fetch JSON data"
