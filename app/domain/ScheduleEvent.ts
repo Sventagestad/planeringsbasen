@@ -1,12 +1,9 @@
 export interface ScheduleEvent {
-
-    courseCode: string;
-    courseName: string;
-    startTime: Date;
-    endTime: Date;
-    teacher: string;
-    room?: string;
-    isDistance: boolean;
-    details?: string;
-
+  contextCode: string;
+  title: string;
+  description?: string;
+  start_at: Date;
+  end_at: Date;
+  location_name?: string;
+  all_day?: boolean;
 }
