@@ -4,13 +4,13 @@ import { canvasConfig } from "@/app/Config/canvas.config";
 
 export class CanvasService {
     async createCalenderEvent(
-        courseID: number,
+        userID: number,
         event: ScheduleEvent
     ): Promise<void> {
         await axios.post(
             `${canvasConfig.baseUrl}/calendar_events`,
             {
-                "calendar_event[context_code]": `course_${courseID}`,
+                "calendar_event[context_code]": `user_${userID}`,
                 "calendar_event[title]": event.courseName,
                 "calendar_event[start_at]": event.startTime.toISOString(),
                 "calendar_event[end_at]": event.endTime.toISOString(),
@@ -22,7 +22,6 @@ export class CanvasService {
                     Authorization: `Bearer ${canvasConfig.token}`
                 }
             }
-
 
 
         )

@@ -22,6 +22,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -54,6 +57,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\emile\Documents\GithubProjects\planeringsbasen\app\api\events" />
       <recent name="C:\Users\emile\Documents\GithubProjects\planeringsbasen" />
       <recent name="C:\Users\emile\Documents\GithubProjects\planeringsbasen\app" />
     </key>
@@ -89,7 +93,7 @@
       <option name="presentableId" value="Default" />
       <updated>1767617792019</updated>
       <workItem from="1767617793289" duration="5704000" />
-      <workItem from="1767704137834" duration="2405000" />
+      <workItem from="1767704137834" duration="4248000" />
     </task>
     <servers />
   </component>
