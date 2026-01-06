@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -8,10 +7,30 @@ import { Input } from "@/components/ui/input";
 export default function Home() {
   const [timeEditLink, setTimeEditLink] = useState("");
   const [timeEditData, setTimeEditData] = useState<any>(null);
+  const [canvasToken, setCanvasToken] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [userID, setUserID] = useState<string | null>(null);
+  const [debugLoading, setDebugLoading] = useState(false);
 
-
+  const handleGetUserID = async () => {
+    try {
+      setDebugLoading(true);
+      setError(null);
+      const response = await fetch("/api/canvas/userid");
+      if (!response.ok) {
+        throw new Error("Failed to get user ID");
+      }
+      const data = await response.json();
+      setUserID(data.userID);
+      console.log("User ID:", data.userID);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to get user ID");
+      console.error("Error getting user ID:", err);
+    } finally {
+      setDebugLoading(false);
+    }
+  };
 
   const handleSetTimeEditLink = async () => {
     if (!timeEditLink) {
@@ -22,6 +41,7 @@ export default function Home() {
     try {
       setLoading(true);
       setError(null);
+      setCanvasToken(canvasToken);
 
       // Replace .html with .json
       const jsonUrl = timeEditLink.replace(/\.html$/, ".json");
@@ -44,8 +64,6 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-
-
   };
 
   return (
@@ -53,7 +71,11 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="flex flex-col w-1/2 justify-center gap-2">
           <h1>Planeringsbasen</h1>
-          <Input placeholder="Canvas ID" />
+          <Input
+            placeholder="Canvas Token"
+            value={canvasToken}
+            onChange={(e) => setCanvasToken(e.target.value)}
+          />
           <h2>TimeEdit Länk</h2>
           <Input
             placeholder="TimeEdit Länk"
@@ -63,7 +85,19 @@ export default function Home() {
           <Button onClick={handleSetTimeEditLink} disabled={loading}>
             {loading ? "Laddar..." : "Skicka!"}
           </Button>
+          <Button
+            onClick={handleGetUserID}
+            disabled={debugLoading}
+            variant="outline"
+          >
+            {debugLoading ? "Laddar..." : "Debug: Get User ID"}
+          </Button>
           {error && <p className="text-red-500">{error}</p>}
+          {userID && (
+            <div className="mt-2">
+              <p className="text-blue-500">User ID: {userID}</p>
+            </div>
+          )}
           {timeEditData && (
             <div className="mt-4">
               <p className="text-green-500">Data loaded successfully!</p>
