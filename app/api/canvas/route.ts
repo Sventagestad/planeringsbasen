@@ -1,22 +1,11 @@
-function POST(request: Request) {
-  return new Response("Hello, world!");
+import { NextResponse } from "next/server";
+
+export async function POST(request: Request) {
+  const { canvasId } = await request.json();
+  const apiKey = process.env.CANVAS_API_KEY;
+  const response = await fetch(
+    `https://canvas.ltu.se/api/v1/courses?access_token=${apiKey}`
+  );
+  const data = await response.json();
+  return NextResponse.json(data);
 }
-
-
-function RegisterSchema(SchemaRequest: Request): Promise<void> {
-    const header: Headers = new Headers()
-
-    const request: RequestInfo = new Request('/Schema',
-        {
-            method: 'POST',
-            headers: header,
-            body: JSON.stringify(SchemaRequest)
-        })
-
-    return fetch(request)
-        .then(res => {
-            console.log("Request Successfull", res)
-        })
-}
-
-export { RegisterSchema }
