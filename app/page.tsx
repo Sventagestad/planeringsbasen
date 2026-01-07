@@ -44,6 +44,7 @@ export default function Home() {
       setLoading(true);
       setError(null);
       setCanvasToken(canvasToken);
+      console.log(canvasToken);
 
       // Replace .html with .json
       const jsonUrl = timeEditLink.replace(/\.html$/, ".json");
@@ -111,7 +112,7 @@ export default function Home() {
             disabled={debugLoading}
             variant="outline"
           >
-            {debugLoading ? "Laddar..." : "Debug: Get User ID"}
+            {debugLoading ? "Laddar..." : "Debug: Get User ID"}§
           </Button>
           {error && <p className="text-red-500">{error}</p>}
           {userID && (
