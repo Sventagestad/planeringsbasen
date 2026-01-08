@@ -150,6 +150,7 @@ export default function Home() {
                         <th className="p-2">Slut</th>
                         <th className="p-2">Plats</th>
                         <th className="p-2">Beskrivning</th>
+                        <th className="p-2">Heldag?</th>
                     </tr>
                     </thead>
 
@@ -194,13 +195,14 @@ export default function Home() {
                     </tbody>
                 </table>
             </div>
-          {timeEditData && (
-            <div className="mt-4">
-              <p className="text-green-500">Data loaded successfully!</p>
-            </div>
-          )}
         </div>
       </div>
     </>
   );
 }
+
+//  //<Button>
+//                // OnClick={handleSendData}
+//                //Variant="outline"</Button>
+//
+//
