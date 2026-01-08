@@ -14,6 +14,8 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [userID, setUserID] = useState<string | null>(null);
   const [debugLoading, setDebugLoading] = useState(false);
+  const [previewEvents, setPreviewEvents] = useState<any>("")
+
 
   const handleGetUserID = async () => {
     try {
@@ -35,42 +37,58 @@ export default function Home() {
   };
 
   const handleSetTimeEditLink = async () => {
-    if (!timeEditLink) {
-      setError("Please enter a TimeEdit link");
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setError(null);
-      setCanvasToken(canvasToken);
-      console.log(canvasToken);
-
-      // Replace .html with .json
-      const jsonUrl = timeEditLink.replace(/\.html$/, ".json");
-
-      // Fetch the JSON data
-      const response = await fetch(jsonUrl);
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch: ${response.statusText}`);
+      if (!timeEditLink) {
+          setError("Please enter a TimeEdit link");
+          return;
       }
 
-      const jsonData = await response.json();
-      setTimeEditData(jsonData);
+      try {
+          setLoading(true);
+          setError(null);
+          setCanvasToken(canvasToken);
+          console.log(canvasToken);
 
-      const timeEditEvents: ScheduleEvent[] =
-        jsonData.reservations?.map((reservation: any) => ({
-          contextCode: String(userID),
-          title: reservation.columns[0],
-          description: reservation.columns[8],
-          start_at: new Date(
-            `${reservation.startdate}T${reservation.starttime}`
-          ),
-          end_at: new Date(`${reservation.enddate}T${reservation.endtime}`),
-          location_name: reservation.columns[1],
-          all_day: false,
-        })) || [];
+          // Replace .html with .json
+          const jsonUrl = timeEditLink.replace(/\.html$/, ".json");
+
+          // Fetch the JSON data
+          const response = await fetch(jsonUrl);
+
+          if (!response.ok) {
+              throw new Error(`Failed to fetch: ${response.statusText}`);
+          }
+
+          const jsonData = await response.json();
+          setTimeEditData(jsonData);
+
+          const timeEditEvents: ScheduleEvent[] =
+              jsonData.reservations?.map((reservation: any) => ({
+                  contextCode: String(userID),
+                  title: reservation.columns[0],
+                  description: reservation.columns[8],
+                  start_at: new Date(
+                      `${reservation.startdate}T${reservation.starttime}`
+                  ),
+                  end_at: new Date(`${reservation.enddate}T${reservation.endtime}`),
+                  location_name: reservation.columns[1],
+                  all_day: false,
+              })) || [];
+
+
+          const events: ScheduleEvent[] = jsonData.reservations?.map((response: any) => ({
+              title: response.comlumns?.[0] ?? "(Ingen Titel)",
+              start_at: new Date(`${response.start_at}`),
+              end_at: new Date(`${response.end_at}`),
+              location: response.location_name ?? "",
+              description: response.description ?? ""
+          })) ?? [];
+
+          setPreviewEvents(timeEditEvents)
+
+
+
+
+      //flytta här så att koden inte postar direkt utan endast previewar sen en ny knapp för skicka!
 
       const canvasService = new CanvasService();
       for (const event of timeEditEvents) {
@@ -119,7 +137,63 @@ export default function Home() {
             <div className="mt-2">
               <p className="text-blue-500">User ID: {userID}</p>
             </div>
+
           )}
+
+            <div>
+                <h1>Preview på timeedit data</h1>
+                <table className={"preview-TimeEdit"}>
+                    <thead>
+                    <tr className="text-left">
+                        <th className="p-2">Aktivitet</th>
+                        <th className="p-2">Start</th>
+                        <th className="p-2">Slut</th>
+                        <th className="p-2">Plats</th>
+                        <th className="p-2">Beskrivning</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {previewEvents.length === 0 ? (
+                        <tr>
+                            <td className="p-2" colSpan={6}>
+                                ingen data hittades
+                            </td>
+                        </tr>
+                    ) : (
+                        previewEvents.map(
+                            (
+                                ev: { title: string; start_at: Date | string; end_at: Date | string; location_name: string; description: string; all_day: boolean; }, idx: number
+                            ) => {
+                                const start = ev.start_at ? new Date(ev.start_at) : null;
+                                const end = ev.end_at ? new Date(ev.end_at) : null;
+
+                                const key =
+                                    start && !Number.isNaN(start.getTime())
+                                        ? `${ev.title}-${start.toISOString()}-${idx}`
+                                        : `${ev.title}-${idx}`;
+
+                                return (
+                                    <tr key={key} className="border-t">
+                                        <td className="p-2">{ev.title}</td>
+                                        <td className="p-2">
+                                            {start && !Number.isNaN(start.getTime()) ? start.toLocaleString() : "—"}
+                                        </td>
+                                        <td className="p-2">
+                                            {end && !Number.isNaN(end.getTime()) ? end.toLocaleString() : "—"}
+                                        </td>
+                                        <td className="p-2">{ev.location_name}</td>
+                                        <td className="p-2">{ev.description}</td>
+                                        <td className="p-2">{ev.all_day ? "true" : "false"}</td>
+                                    </tr>
+                                );
+                            }
+                        )
+                    )}
+                    </tbody>
+                </table>
+            </div>
           {timeEditData && (
             <div className="mt-4">
               <p className="text-green-500">Data loaded successfully!</p>
