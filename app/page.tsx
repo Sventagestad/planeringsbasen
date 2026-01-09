@@ -15,7 +15,8 @@ export default function Home() {
   const [userID, setUserID] = useState<string | null>(null);
   const [debugLoading, setDebugLoading] = useState(false);
   const [previewEvents, setPreviewEvents] = useState<any>("");
-  const [sendData, setSendData] = useState("");
+  const [sendData, setSendData] = useState<any>([]);
+  const [Status, setStatus] = useState("");
 
   const handleGetUserID = async () => {
     try {
@@ -104,8 +105,9 @@ export default function Home() {
     }
   };
   const handleSendData = async () => {
+      setLoading(true)
     const canvasService = new CanvasService();
-    for (const event of getTimeEditEvents().map((event: any) => ({
+    for (const event of previewEvents.map((event: any) => ({
       title: event.title,
       description: event.description,
       start_at: event.start_at,
@@ -114,11 +116,13 @@ export default function Home() {
     }))) {
       await canvasService.createCalenderEvent(event);
     }
+    setStatus("Data skickat till canvas")
+      setLoading(false);
   };
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center h-screen">
+      <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="flex flex-col w-1/2 justify-center gap-2">
           <h1>Planeringsbasen</h1>
           <Input
@@ -135,13 +139,7 @@ export default function Home() {
           <Button onClick={handleSetTimeEditLink} disabled={loading}>
             {loading ? "Laddar..." : "Ladda in data"}
           </Button>
-          <Button
-            onClick={handleGetUserID}
-            disabled={debugLoading}
-            variant="outline"
-          >
-            {debugLoading ? "Laddar..." : "GetUserID"}
-          </Button>
+
           {error && <p className="text-red-500">{error}</p>}
           {userID && (
             <div className="mt-2">
@@ -154,7 +152,6 @@ export default function Home() {
             <table className={"preview-TimeEdit"}>
               <thead>
                 <tr className="text-left">
-                  <th className="p-2">Aktivitet</th>
                   <th className="p-2">Start</th>
                   <th className="p-2">Slut</th>
                   <th className="p-2">Plats</th>
@@ -294,10 +291,21 @@ export default function Home() {
             </table>
           </div>
           <Button onClick={handleSendData} disabled={loading}>
-            Skicka in till canvas
+              Skicka
           </Button>
+            {Status}
         </div>
       </div>
     </>
   );
 }
+
+//Kod för att hämta userID i debugsyfte
+
+//<Button
+//            // onClick={handleGetUserID}
+//             disabled={debugLoading}
+//             //variant="outline"
+//           >
+//             {debugLoading ? "Laddar..." : "GetUserID"}
+//           </Button>
