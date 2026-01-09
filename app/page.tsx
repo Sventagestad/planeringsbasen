@@ -21,16 +21,21 @@ export default function Home() {
     try {
       setDebugLoading(true);
       setError(null);
-      const response = await fetch("/api/canvas/userid");
-      if (!response.ok) {
-        throw new Error("Failed to get user ID");
-      }
+      //const response = await fetch("/api/canvas/userid");
+      const response = await fetch("/api/canvas/userid", {
+            headers: {
+                Authorization: `Bearer ${canvasToken}`,
+            },
+        });
+      //if (!response.ko) {
+      //  throw new Error("Failed to get user ID");
+      //}
       const data = await response.json();
       setUserID(data.userID);
       console.log("User ID:", data.userID);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to get user ID");
-      console.error("Error getting user ID:", err);
+     // console.error("Error getting user ID:", err);
     } finally {
       setDebugLoading(false);
     }
@@ -130,7 +135,8 @@ export default function Home() {
             disabled={debugLoading}
             variant="outline"
           >
-            {debugLoading ? "Laddar..." : "Debug: Get User ID"}§
+            {debugLoading ? "Laddar..." : "GetUserID"}
+
           </Button>
           {error && <p className="text-red-500">{error}</p>}
           {userID && (
@@ -200,9 +206,3 @@ export default function Home() {
     </>
   );
 }
-
-//  //<Button>
-//                // OnClick={handleSendData}
-//                //Variant="outline"</Button>
-//
-//
